@@ -15,13 +15,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.objtradeapp.ui.theme.ObjTradeAppTheme
 import com.example.objtradeapp.view.AdsScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ObjTradeAppTheme {
-        val navController = rememberNavController()
+                val navController = rememberNavController()
                 NavHost(
                     navController = navController,
                     startDestination = "ads_screen",
