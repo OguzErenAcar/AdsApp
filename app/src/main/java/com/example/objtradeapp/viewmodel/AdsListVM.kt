@@ -49,7 +49,6 @@ class AdsListVM @Inject constructor(
                     errorMessage.value = ""
                 }
 
-                else -> {}
             }
         }
 

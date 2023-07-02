@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id ("dagger.hilt.android.plugin")
     id ("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 
@@ -96,7 +97,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
 
-// Coil)
+// Coil
     implementation("io.coil-kt:coil-compose:1.3.2")
 
     //Dagger - Hilt)
@@ -107,5 +108,13 @@ dependencies {
     implementation("androidx.hilt:hilt-work:1.0.0")
     implementation("androidx.work:work-runtime-ktx:2.8.1")
 
-
+//Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.1.1"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
+//metarial
+    implementation("androidx.compose.material:material-icons-extended:1.4.3")
+//compose
+    implementation("androidx.compose.material:material:1.4.3")
 }

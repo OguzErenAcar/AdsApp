@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "393028572392",
+    "project_id": "tradeapp-8bf6f",
+    "storage_bucket": "tradeapp-8bf6f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393028572392:android:306d092a91ac449c84e55d",
+        "android_client_info": {
+          "package_name": "com.example.objtradeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "393028572392-a6kgsa3174q3gepsf1nvte9e5gn32jla.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5xMh2EIP73GXWQltmwpW4t7-tjoQVpO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "393028572392-a6kgsa3174q3gepsf1nvte9e5gn32jla.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

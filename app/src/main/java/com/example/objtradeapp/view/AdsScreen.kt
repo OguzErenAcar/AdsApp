@@ -1,5 +1,6 @@
 package com.example.objtradeapp.view
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,26 +33,33 @@ import androidx.compose.material3.CardElevation
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberImagePainter
 import com.example.objtradeapp.R
 import com.example.objtradeapp.model.Ads
 import com.example.objtradeapp.ui.theme.*
 import com.example.objtradeapp.viewmodel.AdsListVM
+import com.google.accompanist.flowlayout.FlowRow
 
 //https://stackoverflow.com/questions/66908737/what-is-the-equivalent-of-nestedscrollview-recyclerview-or-nested-recyclerv/66913480#66913480
 
@@ -60,17 +69,19 @@ fun AdsScreen(navController: NavController, viewModel: AdsListVM = hiltViewModel
         modifier = Modifier.fillMaxSize(),
         color = Cl4
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
 
         ) {
+            item {
 
-            TopBar()
-            categoryBar()
-            Spacer(modifier = Modifier.height(10.dp))
-            AdsList(navController)
+                    TopBar()
+                    categoryBar()
+                    Spacer(modifier = Modifier.height(10.dp))
+                    AdsList(navController)
+            }
+
         }
     }
 }
@@ -82,10 +93,14 @@ fun AdsList(navController: NavController, viewModel: AdsListVM = hiltViewModel()
     val Error by remember {viewModel.errorMessage}
     val Loading by remember{viewModel.isLoading}
 
+    //Scroll sayfanın sonuna geldiğinde yeni 10 ürün için
+    //istek atıp sayfanın boyutu ayarlanabilir hem de dinamik olr 
     AdsListView(Adslist, navController)
 
     Box(contentAlignment = Alignment.Center,
-        modifier=Modifier.fillMaxSize().background(color = Cl1)){
+        modifier= Modifier
+            .fillMaxSize()
+            .background(color = Cl1)){
         if(Loading){
             val a=1
         }
@@ -98,9 +113,9 @@ fun AdsList(navController: NavController, viewModel: AdsListVM = hiltViewModel()
 
 @Composable
 fun AdsListView(ads: List<Ads>, navController: NavController) {
-
+    val size=200*ads.size/2
     LazyVerticalGrid(
-        modifier = Modifier.size(1200.dp),
+        modifier = Modifier.size(size.dp),
         columns = GridCells.Adaptive(minSize = 128.dp),
         contentPadding = PaddingValues(
             start = 12.dp,
@@ -110,7 +125,7 @@ fun AdsListView(ads: List<Ads>, navController: NavController) {
         ), userScrollEnabled = false
     ) {
       items(ads.size){i->
-           AdsBox(navController =navController , item =ads.get(i) )
+          AdsBox(navController =navController , item =ads.get(i))
       }
 
     }
@@ -120,17 +135,28 @@ fun AdsListView(ads: List<Ads>, navController: NavController) {
 fun AdsBox(navController: NavController,item:Ads) {
     Card(
         modifier = Modifier
+            .wrapContentSize(Alignment.Center)
             .padding(4.dp)
             .size(168.dp)
     ) {
-        Text(
-            text = "${item.AdsName}",
-            fontWeight = FontWeight.Bold,
-            fontSize = 15.sp,
-            color = Color(0xFFFFFFFF),
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(16.dp)
-        )
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter =  rememberImagePainter(data = "${item.AdsPhotoPaths}.jpg"),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            Text(
+                text = "${item.AdsName}",
+                fontWeight = FontWeight.Bold,
+                fontSize = 15.sp,
+                color = Color(0xFFFFFFFF),
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp)
+            )
+        }
     }
 
 }
@@ -188,11 +214,12 @@ fun AdsBox(navController: NavController,item:Ads) {
     }
 
 
-    @Preview(showBackground = true)
+
+@Preview(showBackground = true)
     @Composable
     fun ShowAdsScreen() {
         val navController = rememberNavController()
-        AdsScreen(navController = navController)
+        AdsBox(navController = navController,Ads("asd",1,"asdad","asdad",1,1,1,false))
     }
 
 //mevcut ekran boyutları
