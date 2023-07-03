@@ -10,7 +10,7 @@ import com.example.objtradeapp.view.AddAdsTest
 import com.example.objtradeapp.view.AdsScreen
 
 @Composable
-fun BottomNavGraph(navController: NavHostController,activity: Activity){
+fun BottomNavGraph(navController: NavHostController ){
 
     NavHost(
         navController=navController,
@@ -23,7 +23,7 @@ fun BottomNavGraph(navController: NavHostController,activity: Activity){
 
         }
         composable(route=BottomBarScreen.addAds.route){
-        AddAdsTest(navController = navController,activity)
+        AddAdsTest(navController = navController )
         }
         composable(route=BottomBarScreen.Settings.route){
 

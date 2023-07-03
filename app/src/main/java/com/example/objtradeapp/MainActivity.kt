@@ -31,6 +31,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.objtradeapp.ui.theme.ObjTradeAppTheme
 import com.example.objtradeapp.view.AdsScreen
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -48,7 +49,7 @@ class MainActivity : ComponentActivity() {
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class,)
 @Composable
 fun MainScreen(activity: Activity){
     val navController= rememberNavController()
@@ -56,7 +57,7 @@ fun MainScreen(activity: Activity){
         bottomBar={BottomBar(navController=navController)}
     )
     {
-    BottomNavGraph(navController,activity)
+    BottomNavGraph(navController)
     }
 
 }

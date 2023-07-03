@@ -8,6 +8,7 @@ plugins {
 
 
 android {
+
     namespace = "com.example.objtradeapp"
     compileSdk = 33
 
@@ -52,11 +53,12 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+
 }
 
 dependencies {
-
-    implementation("androidx.core:core-ktx:1.10.1")
+     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation(platform("androidx.compose:compose-bom:2022.10.00"))
@@ -117,4 +119,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.4.3")
 //compose
     implementation("androidx.compose.material:material:1.4.3")
+
+ implementation ("com.google.accompanist:accompanist-permissions:0.30.1")
+
 }

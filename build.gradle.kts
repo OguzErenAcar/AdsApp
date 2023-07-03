@@ -1,12 +1,20 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-//    ext {
-//        compose_ui_version = '1.4.3'
-//    }
+        repositories {
+            google()
+            mavenCentral()
+        }
 
+
+    dependencies {
+        // Add the dependency for the Google services Gradle plugin
+        classpath("com.google.gms:google-services:4.3.14")
+    }
 
 }
+
+
 
 plugins {
     id("com.google.gms.google-services") version "4.3.15" apply false
