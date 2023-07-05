@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Bundle
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,6 +23,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -33,28 +35,29 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.navigation.NavController
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.NavDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.objtradeapp.MainActivity
 import com.example.objtradeapp.ui.theme.Cl1
-
-
-
-
-
-
-@Composable
-fun AddAdstest2(){
-
-}
-
-
+ import com.example.objtradeapp.util.UribyString
+import  com.example.objtradeapp.util.navigate
+import com.google.gson.Gson
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun AddAdsTest(navController: NavController ) {
+fun AddAdsTest(navController: NavController) {
     val context = LocalContext.current
 
     val launcherPermission = rememberLauncherForActivityResult(
@@ -71,15 +74,15 @@ fun AddAdsTest(navController: NavController ) {
     }
 
 
-    var selectedImageURI =  remember { mutableStateOf<Uri?>(null) }
+    val selectedImageURI =  remember { mutableStateOf<Uri?>(null) }
+    val shareButtonEnabled=remember{mutableStateOf(false)}
     val launcherMedia = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     )
     { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             selectedImageURI.value =result.data?.data
-            println(selectedImageURI.value)
-
+            shareButtonEnabled.value=true
         } else {
             println("Secilmedi")
         }
@@ -120,13 +123,26 @@ fun AddAdsTest(navController: NavController ) {
             contentDescription = null,
             modifier = Modifier.size(200.dp)
         )
+
+            AdsScreenButton(navController, shareButtonEnabled.value,selectedImageURI.value)
+
+
     }
 }
 
 }
 
-
-
 @Composable
-fun show(){
+fun  AdsScreenButton(navController: NavController, enabled:Boolean, ImageUri: Uri?){
+    Button(enabled = enabled,
+        onClick = {
+            val uristring = UribyString("1", ImageUri.toString())
+            val json = Uri.encode(Gson().toJson(uristring))
+            navController.navigate("add_ads_screen/$json")
+            
+        }){
+        Text(text = "Share AD")
+    }
+
 }
+

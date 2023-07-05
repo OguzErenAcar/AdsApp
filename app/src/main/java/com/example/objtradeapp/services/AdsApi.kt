@@ -11,13 +11,13 @@ interface AdsApi {
 
 
     @POST("ads/add")
-    suspend fun CreateAds(Data:Ads): Response
+    suspend fun CreateAds(@Body Data:Ads): Response
     @POST("ads/delete")
-    suspend fun deleteAds(Data:JSONObject):Response
+    suspend fun deleteAds(@Body Data:JSONObject):Response
 
     @POST("ads/getall")
     suspend fun getAllAds(@Body Data:JSONObject):AdsList
 
     @POST("ads/get")
-    suspend fun getAds(Data:JSONObject):Response
+    suspend fun getAds(@Body Data:JSONObject):Response
 }

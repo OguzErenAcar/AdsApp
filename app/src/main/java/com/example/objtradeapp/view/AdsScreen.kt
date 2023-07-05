@@ -141,7 +141,7 @@ fun AdsBox(navController: NavController,item:Ads) {
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
-                painter =  rememberImagePainter(data = "${item.AdsPhotoPaths}.jpg"),
+                painter =  rememberImagePainter(data = item.AdsPhotoPaths),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize()
             )

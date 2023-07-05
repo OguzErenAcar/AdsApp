@@ -17,7 +17,7 @@ class AdsRepository @Inject constructor(
             try {
                 api.CreateAds(Ads)
             }catch (e:Exception){
-                return Resource.Error("Create Ads error")
+                return Resource.Error("Create Ads error ${e}")
             }
         return Resource.Success(response)
     }
@@ -27,7 +27,7 @@ class AdsRepository @Inject constructor(
             try {
                 api.deleteAds(id)
             }catch (e:Exception){
-                return Resource.Error("delete ads error")
+                return Resource.Error("delete ads error ${e.message}")
             }
         return Resource.Success(response)
     }
@@ -37,7 +37,7 @@ class AdsRepository @Inject constructor(
             try {
                 api.getAllAds(id)
             }catch (e:Exception){
-                return Resource.Error(e.message)
+                return Resource.Error("get all ads error ${e.message}")
             }
         return Resource.Success(response)
     }
@@ -46,7 +46,7 @@ class AdsRepository @Inject constructor(
             try {
                 api.getAds(id)
             }catch (e:Exception){
-                return Resource.Error("getAds error")
+                return Resource.Error("getAds error ${e.message}")
             }
         return Resource.Success(response)
     }
