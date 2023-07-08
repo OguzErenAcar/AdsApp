@@ -51,5 +51,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
         hasBottomBar = true,
         hasTopBar = true
     )
+      object WhiteScreen : BottomBarScreen(
+          route = "space",
+          title = "space",
+          icon = null,
+          hasBottomBar = false,
+          hasTopBar = false
+      )
+
 
 }

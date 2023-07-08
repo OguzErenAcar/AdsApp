@@ -49,6 +49,4 @@ class UsersRepository @Inject constructor(
             }
         return Resource.Success(response)
     }
-
-    
 }

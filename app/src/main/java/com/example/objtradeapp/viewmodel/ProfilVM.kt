@@ -10,10 +10,12 @@ import com.example.objtradeapp.util.Constants
 import com.example.objtradeapp.util.Constants.UserInfo.USERID
 import com.example.objtradeapp.util.Resource
 import com.google.gson.Gson
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import javax.inject.Inject
 
+@HiltViewModel
 class ProfilVM @Inject constructor(
     private val repository: ProfilsRepository
 ):ViewModel() {

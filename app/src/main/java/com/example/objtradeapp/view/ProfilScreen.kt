@@ -32,6 +32,7 @@ import com.example.objtradeapp.viewmodel.ProfilVM
 
 @Composable
 fun ProfilScreen(navController: NavController,viewmodel:ProfilVM= hiltViewModel()){
+
     viewmodel.getProfil(USERID)
     val profil  = viewmodel.Profil.value
     Surface( modifier = Modifier
@@ -56,11 +57,11 @@ fun UserInfos(navController: NavController,profil:Profil?) {
         .fillMaxWidth()
         .height(300.dp),
         verticalArrangement = Arrangement.Center){
-         InfoRow("a",profil?.Gender ?: "Gizli")
+         InfoRow("Gender",profil?.Gender ?: "Gizli")
         Spacer(modifier = Modifier.height(20.dp))
-        InfoRow("a",profil?.Number ?: "Gizli")
+        InfoRow("Number",profil?.Number ?: "Gizli")
         Spacer(modifier = Modifier.height(20.dp))
-        InfoRow("a",profil?.Age.toString() )
+        InfoRow("Age",profil?.Age.toString())
         Spacer(modifier = Modifier.height(20.dp))
     }
 }
@@ -82,7 +83,7 @@ fun ImageRow(navController: NavController,profil:Profil?) {
                 .weight(1f)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center){
-            Text(text = profil?.Name!!)
+            Text(text = profil?.Name ?:"")
         }
     }
 }
