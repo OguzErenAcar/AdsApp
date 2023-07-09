@@ -13,9 +13,11 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ContentAlpha
@@ -26,6 +28,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -36,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -79,9 +83,13 @@ fun MainScreen(activity: Activity){
     val navController= rememberNavController()
 
     Scaffold(
-        bottomBar=  {BottomBar(navController=navController )}
-    )
+
+        bottomBar={ BottomBar(navController=navController )},
+     //   floatingActionButton = {AddAdsbutton(navController)},
+    //    floatingActionButtonPosition = FabPosition.Center,
+     )
     {
+
          bottomNavGraph(navController )
 
     }
@@ -90,13 +98,13 @@ fun MainScreen(activity: Activity){
 
 @Composable
 fun BottomBar(navController: NavHostController ) {
-
+    //AddAdsbutton(navController)
     val screens = listOf(
         BottomBarScreen.Home,
         BottomBarScreen.Message,
         BottomBarScreen.WhiteScreen,
+        BottomBarScreen.Notifications,
         BottomBarScreen.Profile,
-        BottomBarScreen.Settings,
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -111,8 +119,8 @@ fun BottomBar(navController: NavHostController ) {
 
     AnimatedVisibility(visible = screen.hasBottomBar) {
 
-        BottomNavigation(modifier=Modifier) {
 
+        BottomNavigation(modifier=Modifier) {
             screens.forEachIndexed {index, screen ->
                 if(index!=2){
                     AddItem(
@@ -122,17 +130,7 @@ fun BottomBar(navController: NavHostController ) {
                     )
                 }
                 else{
-                    FloatingActionButton(modifier=Modifier.padding(bottom = 3.dp),
-                        backgroundColor = Purple40,
-                        onClick = {
-
-                        navController.navigate(screen.route){
-                            popUpTo(navController.graph.findStartDestination().id)
-                            launchSingleTop = true
-                        }
-                    }) {
-                    Icon(Icons.Filled.AddCircleOutline, contentDescription = "Localized description")
-                    }
+                    AddAdsbutton(navController,screen)
                 }
             }
         }
@@ -150,7 +148,7 @@ fun RowScope.AddItem(
         //    Text(text = screen.title)
         },
         icon = {
-            Icon(
+            Icon(modifier=Modifier.size(30.dp),
                 imageVector = screen.icon!!,
                 contentDescription = "Navigation Icon"
             )
@@ -161,9 +159,27 @@ fun RowScope.AddItem(
         unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.disabled),
         onClick = {
             navController.navigate(screen.route) {
+                println(screen.route)
                 popUpTo(navController.graph.findStartDestination().id)
                 launchSingleTop = true
             }
         }
     )
+}
+
+@Composable
+fun AddAdsbutton(navController: NavHostController,screen: BottomBarScreen){
+    Box (modifier=Modifier, Alignment.Center){
+        FloatingActionButton(modifier=Modifier.padding(),
+            backgroundColor = Purple40,
+            onClick = {
+
+                navController.navigate(screen.route){
+                    popUpTo(navController.graph.findStartDestination().id)
+                    launchSingleTop = true
+                }
+            }) {
+            Icon(Icons.Filled.AddCircleOutline, contentDescription = "Localized description")
+        }
+    }
 }

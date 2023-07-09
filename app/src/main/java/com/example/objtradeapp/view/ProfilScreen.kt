@@ -11,9 +11,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,9 +36,13 @@ import com.example.objtradeapp.viewmodel.ProfilVM
 
 @Composable
 fun ProfilScreen(navController: NavController,viewmodel:ProfilVM= hiltViewModel()){
-
     viewmodel.getProfil(USERID)
-    val profil  = viewmodel.Profil.value
+    //composable fazladan değerlendiriliyor ve 3 kere çağırılyr
+   // = ile live data gibi çalışmazken by ile çalışıyor ?
+    val profil  by remember{ viewmodel.Profil}
+    val error by remember{  viewmodel.message}
+    val loading by remember{  viewmodel.loading}
+
     Surface( modifier = Modifier
         .fillMaxSize()) {
 
@@ -43,8 +51,15 @@ fun ProfilScreen(navController: NavController,viewmodel:ProfilVM= hiltViewModel(
                 .background(Color.White)
                 .fillMaxSize()
         ) {
-            ImageRow(navController,profil)
+
             UserInfos(navController,profil)
+            if (error.isNotEmpty())
+                Text(text = error)
+            if(loading)
+                CircularProgressIndicator(color = Color.Red, modifier = Modifier
+                    .padding()
+                    .align(Alignment.CenterHorizontally))
+
         }
     }
 }
@@ -52,7 +67,7 @@ fun ProfilScreen(navController: NavController,viewmodel:ProfilVM= hiltViewModel(
 @Composable
 fun UserInfos(navController: NavController,profil:Profil?) {
 
-
+    ImageRow(navController,profil)
     Column (modifier= Modifier
         .fillMaxWidth()
         .height(300.dp),

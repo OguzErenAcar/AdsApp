@@ -10,6 +10,6 @@ sealed class Constants {
       const val BASE_URL = "http://192.168.1.9:3000/"
    }
    object UserInfo{
-      const val USERID=18
+      const val USERID=9
    }
 }

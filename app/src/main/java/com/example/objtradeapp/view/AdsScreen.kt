@@ -28,8 +28,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardElevation
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -54,7 +57,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.example.objtradeapp.BottomBarScreen
 import com.example.objtradeapp.R
 import com.example.objtradeapp.model.Ads
 import com.example.objtradeapp.ui.theme.*
@@ -64,23 +69,29 @@ import com.google.accompanist.flowlayout.FlowRow
 //https://stackoverflow.com/questions/66908737/what-is-the-equivalent-of-nestedscrollview-recyclerview-or-nested-recyclerv/66913480#66913480
 
 @Composable
-fun AdsScreen(navController: NavController, viewModel: AdsListVM = hiltViewModel()) {
+fun AdsScreen(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Cl4
     ) {
-        LazyColumn(
-            modifier = Modifier
+       LazyColumn(verticalArrangement = Arrangement.Top,
+           horizontalAlignment = Alignment.CenterHorizontally,
+             modifier = Modifier
                 .fillMaxSize()
 
         ) {
-            item {
-
-                    TopBar()
-                    categoryBar()
-                    Spacer(modifier = Modifier.height(10.dp))
-                    AdsList(navController)
-            }
+           item {
+               TopBar()
+           }
+           item{
+               categoryBar()
+           }
+           item{
+               Spacer(modifier = Modifier.height(10.dp))
+           }
+           item{
+               AdsList(navController)
+           }
 
         }
     }
@@ -95,25 +106,45 @@ fun AdsList(navController: NavController, viewModel: AdsListVM = hiltViewModel()
 
     //Scroll sayfanın sonuna geldiğinde yeni 10 ürün için
     //istek atıp sayfanın boyutu ayarlanabilir hem de dinamik olr 
-    AdsListView(Adslist, navController)
+
 
     Box(contentAlignment = Alignment.Center,
-        modifier= Modifier
-            .fillMaxSize()
-            .background(color = Cl1)){
+        modifier= Modifier.fillMaxHeight()  ){
+        AdsListView(Adslist, navController)
         if(Loading){
-            val a=1
+            CircularProgressIndicator(color = Color.Red,
+                modifier = Modifier
+                    .padding(bottom = 35.dp)
+                    .align(Alignment.Center))
         }
         if(Error.isNotEmpty()){
-            Text(text = Error,modifier=Modifier, textAlign = TextAlign.Center)
-        }
+            RetryView(error = Error) {
+                viewModel.loadAds()
+            }
+         }
 
+    }
+}
+@Composable
+fun RetryView(
+    error: String,
+    onRetry: () -> Unit
+) {
+    Column {
+        Text(error, color = Color.Gray, fontSize = 14.sp, textAlign = TextAlign.Center)
+        Spacer(modifier = Modifier.height(10.dp))
+        Button(
+            onClick = { onRetry() },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text(text = "Retry")
+        }
     }
 }
 
 @Composable
 fun AdsListView(ads: List<Ads>, navController: NavController) {
-    val size=200*ads.size/2
+    val size=225*ads.size/2
     LazyVerticalGrid(
         modifier = Modifier.size(size.dp),
         columns = GridCells.Adaptive(minSize = 128.dp),
@@ -131,13 +162,18 @@ fun AdsListView(ads: List<Ads>, navController: NavController) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalCoilApi::class)
 @Composable
 fun AdsBox(navController: NavController,item:Ads) {
     Card(
         modifier = Modifier
             .wrapContentSize(Alignment.Center)
             .padding(4.dp)
-            .size(168.dp)
+            .size(168.dp),
+        onClick = {
+            navController.navigate(BottomBarScreen.DetailsAd.route+"/"+item.AdsID)
+
+        }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
@@ -147,7 +183,7 @@ fun AdsBox(navController: NavController,item:Ads) {
             )
 
             Text(
-                text = "${item.AdsName}",
+                text = item.AdsName,
                 fontWeight = FontWeight.Bold,
                 fontSize = 15.sp,
                 color = Color(0xFFFFFFFF),

@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.objtradeapp.ui.theme.Cl4
 
 val books = (1..10).map { "Book $it" }.toList()
 val wishlisted = (1..50).map { "Wishlisted Book $it" }
@@ -66,8 +68,48 @@ fun NestedScrollScreen() {
     }
 }
 
+@Composable
+fun test(){
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = Cl4
+    ) {
+         Column(verticalArrangement = Arrangement.Top,
+            modifier = Modifier
+                .fillMaxSize()
+
+        ) {
+
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .background(Color.Black))
+             Deneme( )
+
+        }
+
+
+    }
+}
+@Composable
+fun Deneme() {
+    Row {
+        Box(
+            modifier = Modifier
+                .width(8.dp)
+                .fillMaxHeight()
+                .background(Color.Red)
+        )
+        Column {
+            Text("Hello")
+            Text("World")
+        }
+    }
+}
+
+
 @Preview
 @Composable
 fun View(){
-    NestedScrollScreen()
+    test()
 }

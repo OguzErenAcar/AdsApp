@@ -11,7 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.objtradeapp.util.AssetParamType
 import com.example.objtradeapp.util.UribyString
-import com.example.objtradeapp.view.AddAdsScreen 
+import com.example.objtradeapp.view.AddAdsScreen
+import com.example.objtradeapp.view.AdsDetailsScreen
 import com.example.objtradeapp.view.AdsScreen
 import com.example.objtradeapp.view.Compl
 import com.example.objtradeapp.view.GetImageScreen
@@ -37,10 +38,18 @@ fun bottomNavGraph(navController: NavHostController ) {
             GetImageScreen(navController = navController)
         }
         composable(route=BottomBarScreen.Profile.route){
+
            ProfilScreen(navController = navController)
         }
-        composable(route=BottomBarScreen.Settings.route){
+        composable(route=BottomBarScreen.Notifications.route){
 
+        }
+        composable(route=BottomBarScreen.DetailsAd.route+"/{adID}",
+            arguments = listOf(navArgument("adID"){
+                type= NavType.IntType
+            })
+        ){navBackStackEntry ->
+            AdsDetailsScreen(navController,navBackStackEntry.arguments?.getInt("adID"))
         }
         composable(
             BottomBarScreen.addAds.route+"/{uri}",

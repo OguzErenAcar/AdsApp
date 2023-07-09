@@ -22,6 +22,7 @@ class ProfilVM @Inject constructor(
 
     val Profil= mutableStateOf<Profil?>(null)
     val message= mutableStateOf("")
+    val loading= mutableStateOf(false)
 
 
 
@@ -30,17 +31,21 @@ class ProfilVM @Inject constructor(
         val json=JSONObject()
         val id=json.put("id",id_)
         viewModelScope.launch {
-           val response= repository.getprofil(id)
+            loading.value=true
+            val response= repository.getprofil(id)
+
             when(response){
                 is Resource.Success->{
                     Profil.value=response.data
-                    message.value= response.message.toString()
+                    message.value= ""
+                    loading.value=false
                 }
                 is Resource.Error->{
                     message.value= response.message.toString()
+                    loading.value=false
                 }
                 is Resource.Loading->{
-                    message.value= response.message.toString()
+                    message.value= ""
                 }
             }
 

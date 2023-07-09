@@ -2,6 +2,7 @@ package com.example.objtradeapp
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddBox
+import androidx.compose.material.icons.filled.Campaign
 import androidx.compose.material.icons.filled.Cottage
 import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.Person
@@ -44,16 +45,23 @@ import androidx.compose.ui.graphics.vector.ImageVector
         hasBottomBar = true,
         hasTopBar = true
     )
-    object Settings : BottomBarScreen(
-        route = "settings",
-        title = "Settings",
-        icon = Icons.Default.Settings,
+    object Notifications : BottomBarScreen(
+        route = "otifications",
+        title = "Notifications",
+        icon = Icons.Default.Campaign,
         hasBottomBar = true,
         hasTopBar = true
     )
       object WhiteScreen : BottomBarScreen(
           route = "space",
           title = "space",
+          icon = null,
+          hasBottomBar = false,
+          hasTopBar = false
+      )
+      object DetailsAd : BottomBarScreen(
+          route = "DetailsAd",
+          title = "DetailsAd",
           icon = null,
           hasBottomBar = false,
           hasTopBar = false

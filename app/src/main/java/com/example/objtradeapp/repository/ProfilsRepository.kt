@@ -28,6 +28,7 @@ class ProfilsRepository @Inject constructor(
             }catch (e:Exception){
                 return Resource.Error("delete Profil error ${e.message}")
             }
+
         return Resource.Success(response)
     }
 }
