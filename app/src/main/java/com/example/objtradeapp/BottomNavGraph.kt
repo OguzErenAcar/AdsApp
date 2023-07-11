@@ -16,6 +16,7 @@ import com.example.objtradeapp.view.AdsDetailsScreen
 import com.example.objtradeapp.view.AdsScreen
 import com.example.objtradeapp.view.Compl
 import com.example.objtradeapp.view.GetImageScreen
+import com.example.objtradeapp.view.LoginScreen
 import com.example.objtradeapp.view.ProfilScreen
 
 @Composable
@@ -25,8 +26,12 @@ fun bottomNavGraph(navController: NavHostController ) {
 
     NavHost(
         navController=navController,
-        startDestination = BottomBarScreen.Home.route
+        startDestination = "Login"
     ){
+        composable(route="Login"){
+
+            LoginScreen(navController = navController)
+        }
         composable(route=BottomBarScreen.Home.route){
 
             AdsScreen(navController = navController)

@@ -121,5 +121,6 @@ dependencies {
     implementation("androidx.compose.material:material:1.4.3")
 
  implementation ("com.google.accompanist:accompanist-permissions:0.30.1")
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.4.2")
 
 }
