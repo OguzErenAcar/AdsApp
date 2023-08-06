@@ -90,7 +90,7 @@ fun MainScreen(activity: Activity){
      )
     {
 
-         bottomNavGraph(navController )
+        NavGraph(navController )
 
     }
 

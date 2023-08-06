@@ -14,14 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.objtradeapp.ui.theme.Cl2
 import com.example.objtradeapp.ui.theme.Cl4
+import com.example.objtradeapp.viewmodel.AdDetailsVM
 
 
 @Composable
-fun AdsDetailsScreen(navController: NavController,ID:Int?) {
+fun AdsDetailsScreen(navController: NavController,ID:Int?,viewmodel:AdDetailsVM= hiltViewModel()) {
     Surface(modifier = Modifier) {
         Column(
             modifier = Modifier
@@ -60,7 +62,7 @@ fun DetailsScreen(ID: Int?) {
         Column {
         Text("ID:$ID",fontSize=30.sp)
         Text("Price",fontSize=30.sp)
-        Text("Details",fontSize=30.sp)
+        Text("Description",fontSize=30.sp)
         }
 
 
