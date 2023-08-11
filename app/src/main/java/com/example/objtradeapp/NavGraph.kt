@@ -12,10 +12,12 @@ import com.example.objtradeapp.util.UribyString
 import com.example.objtradeapp.view.AddAdsScreen
 import com.example.objtradeapp.view.AdsDetailsScreen
 import com.example.objtradeapp.view.AdsScreen
-import com.example.objtradeapp.view.Compl
 import com.example.objtradeapp.view.CreateProfilScreen
 import com.example.objtradeapp.view.GetImageScreen
 import com.example.objtradeapp.view.LoginScreen
+import com.example.objtradeapp.view.MessagesScreen
+import com.example.objtradeapp.view.Notification
+import com.example.objtradeapp.view.NotificationScreen
 import com.example.objtradeapp.view.ProfilScreen
 
 @Composable
@@ -51,7 +53,7 @@ fun  NavGraph(navController: NavHostController ) {
                 AdsDetailsScreen(navController,navBackStackEntry.arguments?.getInt("adID"))
             }
             composable(route=BottomBarScreen.Message.route){
-                Compl(navController)
+             MessagesScreen(navController = navController)
             }
             composable(route=BottomBarScreen.WhiteScreen.route){
                 GetImageScreen(navController = navController)
@@ -72,7 +74,7 @@ fun  NavGraph(navController: NavHostController ) {
                 ProfilScreen(navController = navController)
             }
             composable(route=BottomBarScreen.Notifications.route){
-
+                    NotificationScreen(navController = navController)
             }
         }
 
