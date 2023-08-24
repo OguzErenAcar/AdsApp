@@ -1,6 +1,5 @@
-package com.example.objtradeapp.view
+package com.example.objtradeapp.view.app.profil
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,7 +27,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.objtradeapp.model.Profil
-import com.example.objtradeapp.repository.ProfilsRepository
 import com.example.objtradeapp.util.Constants.UserInfo.USERID
 import com.example.objtradeapp.viewmodel.ProfilVM
 

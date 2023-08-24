@@ -15,7 +15,7 @@ android {
     defaultConfig {
         applicationId = "com.example.objtradeapp"
         minSdk = 23
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -122,5 +122,7 @@ dependencies {
 
  implementation ("com.google.accompanist:accompanist-permissions:0.30.1")
     implementation("androidx.compose.ui:ui-text-google-fonts:1.4.2")
+
+
 
 }

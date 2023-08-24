@@ -9,10 +9,10 @@ import com.example.objtradeapp.R
 sealed class Constants {
 
    object network {
-      const val BASE_URL = "http://192.168.1.9:3000/"
+      const val BASE_URL = "http://192.168.1.5:3000"
    }
    object UserInfo{
-      const val USERID=9
+      const val USERID=1
    }
    object GoogleFonts{
       val provider = GoogleFont.Provider(

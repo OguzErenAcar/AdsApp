@@ -41,7 +41,7 @@ class AdsRepository @Inject constructor(
             }
         return Resource.Success(response)
     }
-    suspend fun get(id: JSONObject): Resource<Response> {
+    suspend fun get(id: MutableMap<String, Int>): Resource<Ads> {
         val response=
             try {
                 api.getAds(id)

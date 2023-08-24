@@ -39,7 +39,7 @@ class AdsListVM @Inject constructor(
                     }
                     errorMessage.value = ""
                     isLoading.value = false
-                    adsList.value += Ads
+                    adsList.value += Ads.reversed()
                 }
                 is Resource.Error -> {
                     errorMessage.value = result.message!!
@@ -54,8 +54,6 @@ class AdsListVM @Inject constructor(
 
 
     }
-
-
 
 
 }

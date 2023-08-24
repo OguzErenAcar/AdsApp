@@ -19,5 +19,5 @@ interface AdsApi {
     suspend fun getAllAds(@Body Data:JSONObject):AdsList
 
     @POST("ads/get")
-    suspend fun getAds(@Body Data:JSONObject):Response
+    suspend fun getAds(@Body Data:MutableMap<String, Int>):Ads
 }

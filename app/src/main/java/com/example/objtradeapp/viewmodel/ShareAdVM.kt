@@ -27,7 +27,7 @@ class ShareAdVM @Inject constructor(
 
 
 
-    fun shareAd(then: (() -> Unit)?=null ) {
+      fun  shareAd( ) {
         val uuid = UUID.randomUUID()
         val ImgName = "${uuid}.jpg"
 
@@ -37,38 +37,29 @@ class ShareAdVM @Inject constructor(
 
         //telefondaki uri ile kayıt yeni isimli img kayıt
             ImgReferance.putFile(ImgPath).addOnSuccessListener {
-                val gorselReferance= FirebaseStorage.getInstance().reference.child("AdsImages").child(ImgName)
-                gorselReferance.downloadUrl.addOnSuccessListener {uri->
-                     viewModelScope.launch {
-                        Ad.value?.AdsPhotoPaths=uri.toString()
-                        val response =  repository.add(Ad.value!!)
+                //println("uri::"+ImgReferance.downloadUrl )
+                ImgReferance.downloadUrl.addOnSuccessListener {uri->
+                    Ad.value?.AdsPhotoPaths=uri.toString()
+                    viewModelScope.launch {
+                        val response =  repository.add(Ad.value!!)//Resource<Response>
                         when(response){
                             is Resource.Success->{
-                                Message.value=response.message.toString()
+                                //response.data nın tipi =>Response yani apiden gelen objedir
+                                //o objede mesaj geliyorsa erişilebilinir .
+                                Message.value= response.data?.message ?: "dönüş mesajı yok "
                             }
                             is Resource.Error->{
-                                Message.value=" error ${response.message}"
+                                //response.mesage apiden gelmez repodan gelir
+                                //apiden bilgi her zaman T değeri olark data olarak gelecektir
+                                 Message.value="${response.message}"
                             }
                             is Resource.Loading->{
                                 Message.value=response.message.toString()
                             }
                         }
-                    }.apply {
-                         if (then != null) {
-                             then()
-                         }
-                     }
+                    }
                 }
-
-            }.addOnFailureListener{
-                Exception->
-                Message.value=" error ${Exception.message}"
-
             }
-
-
-
-
     }
 
 }

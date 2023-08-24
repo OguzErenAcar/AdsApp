@@ -5,7 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+ import androidx.compose.foundation.layout.Spacer
  import androidx.compose.foundation.layout.fillMaxHeight
  import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,33 +15,39 @@ import androidx.compose.foundation.layout.size
  import androidx.compose.foundation.rememberScrollState
  import androidx.compose.foundation.verticalScroll
  import androidx.compose.material.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
+ import androidx.compose.material.Snackbar
+ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+ import androidx.compose.runtime.LaunchedEffect
+ import androidx.compose.runtime.MutableState
  import androidx.compose.runtime.mutableIntStateOf
  import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+ import androidx.compose.runtime.rememberCoroutineScope
+ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
  import androidx.compose.ui.graphics.Color
  import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+ import androidx.compose.ui.unit.Constraints
+ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.objtradeapp.model.Ads
-import com.example.objtradeapp.viewmodel.ShareAdVM
+ import com.example.objtradeapp.util.Constants
+ import com.example.objtradeapp.viewmodel.ShareAdVM
+ import kotlinx.coroutines.launch
 
 
 @Composable
 fun AddAdsScreen(navController: NavController ,imgUri: String ){
-
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -55,11 +61,15 @@ fun AddAdsScreen(navController: NavController ,imgUri: String ){
                 horizontalAlignment = Alignment.Start
             ) {
 
-
                 val AdItem = adsForm(navController, imgUri)
-                ShareButton(navController,AdItem)
-            }
+                val message= remember{ mutableStateOf("") }
 
+                ShareButton(navController,message,AdItem)
+
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Text(modifier = Modifier.align(Alignment.TopCenter),text = message.value)
+                }
+            }
     }
 
 
@@ -68,7 +78,9 @@ fun AddAdsScreen(navController: NavController ,imgUri: String ){
 @Composable
 fun adsForm(navController:NavController,imgUri: String): Ads {
 
-    Box(modifier = Modifier.height(300.dp).fillMaxWidth(),
+    Box(modifier = Modifier
+        .height(300.dp)
+        .fillMaxWidth(),
         contentAlignment = Alignment.Center) {
         Image(painter = rememberImagePainter(imgUri ),
             contentDescription = null,
@@ -76,13 +88,14 @@ fun adsForm(navController:NavController,imgUri: String): Ads {
 
     }
 
-    val name=remember{ mutableStateOf(TextFieldValue()) }
-    val price=remember{ mutableStateOf(0) }
-    val description=remember{ mutableStateOf(TextFieldValue()) }
+    val name=remember{ mutableStateOf("") }
+    val price=remember{ mutableIntStateOf(0) }
+    val description=remember{ mutableStateOf("") }
     Spacer(
         Modifier
             .height(30.dp)
             .fillMaxWidth())
+
     OutlinedTextField(
         value = name.value,
          onValueChange ={name.value=it},
@@ -93,6 +106,7 @@ fun adsForm(navController:NavController,imgUri: String): Ads {
         Modifier
             .height(30.dp)
             .fillMaxWidth())
+
      OutlinedTextField(
         value = price.value.toString(),
         onValueChange ={newvalue->
@@ -104,11 +118,14 @@ fun adsForm(navController:NavController,imgUri: String): Ads {
         Modifier
             .height(30.dp)
             .fillMaxWidth())
-     TextField(
+
+    OutlinedTextField(
         value = description.value,
         onValueChange ={description.value=it},
         label={ Text(text = "description")},
-        modifier = Modifier.fillMaxWidth().height(160.dp) )
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(160.dp) )
     Spacer(
         Modifier
             .height(30.dp)
@@ -116,14 +133,15 @@ fun adsForm(navController:NavController,imgUri: String): Ads {
 
 
     val Ad = Ads(
-        AdsDescription = description.value.toString(),
-        AdsID = 0,
+        AdsDescription =description.value.toString(),
+        AdsID = 2,
         AdsName = name.value.toString(),
         AdsPhotoPaths = imgUri,
         AdsPrice = price.value,
-        ProfilID_ = 9,
-        UserID_ = 8,
-        isSelled = false
+        ProfilID_ = Constants.UserInfo.USERID,
+        UserID_ = Constants.UserInfo.USERID,
+        isSelled = false,
+        CategoryID_ = 1
     )
     return Ad
 
@@ -131,27 +149,43 @@ fun adsForm(navController:NavController,imgUri: String): Ads {
 
 
 @Composable
-fun ShareButton (navController: NavController,Ad:Ads,viewModel:ShareAdVM= hiltViewModel()){
+fun ShareButton (navController: NavController, message: MutableState<String>, Ad:Ads, viewModel:ShareAdVM= hiltViewModel()){
+
+    val scope = rememberCoroutineScope() // CoroutineScope for managing coroutines
+
+
     Box(modifier = Modifier
         .fillMaxWidth()
         .padding(),
         contentAlignment = Alignment.Center){
         Button(onClick = {
-            Share(Ad,viewModel)
+                viewModel.Ad.value=Ad
+                viewModel.shareAd()
+
+
         }) {
             Text(text = "Share",color= Color.White)
         }
     }
+    LaunchedEffect(viewModel.Message.value) {
+        if(viewModel.Message.value!=""){
+            message.value=viewModel.Message.value
+            //SnackbarMessage(message.value) ??
+            navController.navigateUp()
+        }
+    }
+}
 
+
+@Composable
+fun SnackbarMessage(Message:String){
+
+    Snackbar  {
+        Text(Message)
+    }
 
 }
 
-fun Share(Ad: Ads, viewModel: ShareAdVM) {
-    viewModel.Ad.value=Ad
-    viewModel.shareAd()
-    viewModel.shareAd()
-
-}
 
 
 @Preview(showBackground = true)

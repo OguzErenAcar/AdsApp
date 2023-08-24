@@ -10,15 +10,15 @@ import androidx.navigation.navArgument
 import com.example.objtradeapp.util.AssetParamType
 import com.example.objtradeapp.util.UribyString
 import com.example.objtradeapp.view.AddAdsScreen
-import com.example.objtradeapp.view.AdsDetailsScreen
-import com.example.objtradeapp.view.AdsScreen
-import com.example.objtradeapp.view.CreateProfilScreen
-import com.example.objtradeapp.view.GetImageScreen
-import com.example.objtradeapp.view.LoginScreen
-import com.example.objtradeapp.view.MessagesScreen
-import com.example.objtradeapp.view.Notification
-import com.example.objtradeapp.view.NotificationScreen
-import com.example.objtradeapp.view.ProfilScreen
+import com.example.objtradeapp.view.app.home.AdsDetailsScreen
+import com.example.objtradeapp.view.app.home.AdsScreen
+import com.example.objtradeapp.view.authorization.CreateProfilScreen
+import com.example.objtradeapp.view.ImageScreen
+import com.example.objtradeapp.view.authorization.LoginScreen
+import com.example.objtradeapp.view.app.messages.MessagesScreen
+import com.example.objtradeapp.view.app.notification.NotificationScreen
+import com.example.objtradeapp.view.app.profil.ProfilScreen
+import com.example.objtradeapp.view.test
 
 @Composable
 fun  NavGraph(navController: NavHostController ) {
@@ -56,7 +56,8 @@ fun  NavGraph(navController: NavHostController ) {
              MessagesScreen(navController = navController)
             }
             composable(route=BottomBarScreen.WhiteScreen.route){
-                GetImageScreen(navController = navController)
+                ImageScreen(navController = navController)
+               // test()
             }
             composable(
                 BottomBarScreen.addAds.route+"/{uri}",

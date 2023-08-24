@@ -8,5 +8,6 @@ data class Ads(
     val AdsPrice: Int,
     val ProfilID_: Int,
     val UserID_: Int,
-    val isSelled: Boolean
+    val isSelled: Boolean,
+    val CategoryID_:Int
 )
