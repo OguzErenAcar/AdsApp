@@ -1,27 +1,12 @@
-# SportPlus 
+# AdsApp
+The second-hand product buy and sell android application. It is still under construction. 
 
-Written with TypeScript a sport page. Admin panel and backend requiests not created . Now Its like this
-template . 
 
 # Used Technologies
-- Javascript ,Typescript ,React
-- Boostrap , Scss , Formik
-- Axios
-- react-router-dom
+- Kotlin -MVVM-RestApi-Jetpack Compose-Dagger-Hilt
 
-# Link 
-Also you can review from this link : 
-https://sportpluss.netlify.app
-
-![Screenshot of a public channel](https://i.hizliresim.com/ew5tuor.png)
-
-# Usage   
-Last branch is build so you must build . then :
-
-```shell
-$ npm i
-$ npm run start 
-```
-
+  
+![Screenshot of a public channel](https://i.hizliresim.com/afuhfj3.png)
+![Screenshot of a public channel](https://i.hizliresim.com/afuhfj3.png)
 
 
