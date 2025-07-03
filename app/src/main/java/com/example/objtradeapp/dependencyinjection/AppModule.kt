@@ -6,7 +6,7 @@ import com.example.objtradeapp.repository.UsersRepository
 import com.example.objtradeapp.services.AdsApi
 import com.example.objtradeapp.services.ProfilsApi
 import com.example.objtradeapp.services.UsersApi
-import com.example.objtradeapp.util.Constants.BASE_URL
+import com.example.objtradeapp.util.Constants.network.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,7 +29,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideProfilsRepository(api: ProfilsApi)= ProfilsRepository()
+    fun provideProfilsRepository(api: ProfilsApi)= ProfilsRepository(api)
 
     @Singleton
     @Provides

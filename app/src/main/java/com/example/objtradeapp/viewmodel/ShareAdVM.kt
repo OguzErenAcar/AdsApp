@@ -27,7 +27,7 @@ class ShareAdVM @Inject constructor(
 
 
 
-    fun shareAd(then:()->Unit){
+    fun shareAd(then: (() -> Unit)?=null ) {
         val uuid = UUID.randomUUID()
         val ImgName = "${uuid}.jpg"
 
@@ -37,25 +37,27 @@ class ShareAdVM @Inject constructor(
 
         //telefondaki uri ile kayıt yeni isimli img kayıt
             ImgReferance.putFile(ImgPath).addOnSuccessListener {
-              val gorselReferance= FirebaseStorage.getInstance().reference.child("AdsImages").child(ImgName)
+                val gorselReferance= FirebaseStorage.getInstance().reference.child("AdsImages").child(ImgName)
                 gorselReferance.downloadUrl.addOnSuccessListener {uri->
-                    viewModelScope.launch {
+                     viewModelScope.launch {
                         Ad.value?.AdsPhotoPaths=uri.toString()
                         val response =  repository.add(Ad.value!!)
                         when(response){
                             is Resource.Success->{
-                                Message.value="Image saved"
+                                Message.value=response.message.toString()
                             }
                             is Resource.Error->{
                                 Message.value=" error ${response.message}"
                             }
                             is Resource.Loading->{
-                                Message.value="Image loading"
+                                Message.value=response.message.toString()
                             }
                         }
                     }.apply {
-                        then()
-                    }
+                         if (then != null) {
+                             then()
+                         }
+                     }
                 }
 
             }.addOnFailureListener{
